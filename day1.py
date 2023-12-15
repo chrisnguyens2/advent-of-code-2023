@@ -1,4 +1,4 @@
-f = open("aoc1_input.txt")
+f = open(".\input\day1_input.txt")
 result = 0
 
 for l in f:
