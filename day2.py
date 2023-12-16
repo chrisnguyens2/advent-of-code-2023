@@ -1,4 +1,4 @@
-f = open("input\day2.txt")
+f = open("input\\day2.txt")
 
 bag = {"red": 12, "green": 13, "blue": 14}
 validGames = []
