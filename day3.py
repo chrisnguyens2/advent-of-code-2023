@@ -21,6 +21,11 @@ for row,line in enumerate(schematic):
             locs.add((row + 1, col + 1))
             locs.add((row + 1, col ))
             locs.add((row + 1, col - 1))
+
+            if col == len(schematic[0]) - 1:
+                numLocs.append((num, locs))
+                num = 0
+                locs = set()
         else:
             if num > 0:
                 numLocs.append((num, locs))
@@ -34,7 +39,6 @@ for num,nlocs in numLocs:
     for nloc in nlocs:        
         for s,sloc in symbolLocs:
             if nloc == sloc:
-                #numLocs.remove((num,nlocs))
                 nums.append((num))
                 isPart = True
                 break
@@ -42,16 +46,10 @@ for num,nlocs in numLocs:
             isPart = False
             break
 
-
-#print(schematic)
-#print(numLocs)
-#print(symbolLocs)
-#print(nums)
-
 sum = 0
 for num in nums:
     sum += num
 
-# print(nums)
+#print(nums)
 print(sum)
 f.close()
