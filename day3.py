@@ -1,4 +1,5 @@
 f = open("input\\day3.txt")
+gears = {}
 nums = []
 schematic = []
 
@@ -39,6 +40,11 @@ for num,nlocs in numLocs:
     for nloc in nlocs:        
         for s,sloc in symbolLocs:
             if nloc == sloc:
+                if s == "*":
+                    if sloc in gears:
+                        gears[sloc].append(num)
+                    else:
+                        gears[sloc] = [num]
                 nums.append((num))
                 isPart = True
                 break
@@ -50,6 +56,11 @@ sum = 0
 for num in nums:
     sum += num
 
-#print(nums)
+sumGearRatios = 0
+for nums in gears.values():
+    if len(nums) == 2:
+        sumGearRatios += nums[0]*nums[1]
+
 print(sum)
+print(sumGearRatios)
 f.close()
