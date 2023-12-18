@@ -2,11 +2,19 @@ import math
 
 f = open("input\\day4.txt")
 
-cardPointDict = {}
-cardOriginalCount = {}
-p1 = 0
+cards = []
 
-for i,line in enumerate(f):
+cardCount = {}
+p1 = 0
+p2 = 0
+
+for i,line in enumerate(f,1):
+    cardCount[i] = 1
+    cards.append(line.replace('\n', ""))
+
+numCards = len(cards)
+
+for i,line in enumerate(cards,1):
     card = line.replace('\n', "").split(":")
     nums = card[1].split("|")
     winningNums = set(nums[0].strip().split(" "))
@@ -20,19 +28,16 @@ for i,line in enumerate(f):
     
     if countMatches > 0:
         pts = int(math.pow(2,countMatches - 1))
-        p1 += pts  
-        cardPointDict[i] = (countMatches, pts)
+        p1 += pts
 
         j = i
-        while j <= countMatches:
-            if j in cardOriginalCount:
-                cardOriginalCount[j] += 1
-            else:
-                cardOriginalCount[j] = 1
+        k = 1
+        while j < i + countMatches:           
+            cardCount[i + k] += cardCount[i]
+            p2 += cardCount[i]
             j += 1
+            k += 1
 
 print(p1)
-print(cardPointDict)
-print(cardOriginalCount)
-
+print(p2 + numCards)
 f.close()
