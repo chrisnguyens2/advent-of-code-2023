@@ -1,3 +1,6 @@
+from functools import cmp_to_key
+import functools
+
 f = open("input\\day7.txt")
 cards = ['A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2'] #0 - 12
 handPairs = []
@@ -22,21 +25,20 @@ def identifyHandType(hand):
 
     return counts
 
-def isHand1GreaterThanHand2(hand1,hand2):
+def compare(hand1,hand2):
     for i in range(4):
-        if hand1[i] != hand2[i]:
-            if cards.index(hand1[i]) < cards.index(hand2[i]):
-                return True
-            else:
-                return False
-    return False
+        if hand1[0][i] != hand2[0][i]:
+            return  - cards.index(hand2[0][i]) - cards.index(hand1[0][i])
+    return 0
 
-def sortHands(hands):
-    n = len(hands)
-    for i in range(n-1):
-        for j in range(0, n-i-1):       
-            if (isHand1GreaterThanHand2(hands[j][0], hands[j+1][0])):
-                hands[j], hands[j + 1] = hands[j + 1], hands[j]
+compare_key = cmp_to_key(compare)
+
+# def sortHands(hands):
+#     n = len(hands)
+#     for i in range(n-1):
+#         for j in range(0, n-i-1):       
+#             if (isHand1GreaterThanHand2(hands[j][0], hands[j+1][0])):
+#                 hands[j], hands[j + 1] = hands[j + 1], hands[j]
 
 for l in f:
     hand = l.split(" ")[0]
@@ -61,13 +63,13 @@ for l in f:
     else:
         raise Exception("Unknown hand type: " + hand + str(handType))
 
-sortHands(fiveKind)
-sortHands(fourKind)
-sortHands(fullHouse)
-sortHands(threeKind)
-sortHands(twoPair)
-sortHands(onePair)
-sortHands(highCard)
+fiveKind.sort(key=functools.cmp_to_key(compare))
+fourKind.sort(key=functools.cmp_to_key(compare))
+fullHouse.sort(key=functools.cmp_to_key(compare))
+threeKind.sort(key=functools.cmp_to_key(compare))
+twoPair.sort(key=functools.cmp_to_key(compare))
+onePair.sort(key=functools.cmp_to_key(compare))
+highCard.sort(key=functools.cmp_to_key(compare))
 
 handPairs.extend(highCard)
 handPairs.extend(onePair)
@@ -89,8 +91,8 @@ for i,(h,b) in enumerate(handPairs, 1):
 #         len(onePair) +
 #         len(highCard))
 # print(len(handPairs))
-print(fourKind)
-print(handPairs[998])
-# print(hands) 253911981
+# print(fourKind)
+# 253911981 253218030
+# 253910319
 print(result)
 f.close()
